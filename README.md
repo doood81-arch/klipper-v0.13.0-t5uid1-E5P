@@ -1,3 +1,32 @@
+This is a WIP
+
+Some functions that do work:
+
+  Temperature
+    Manual - Bed and Extruder
+
+  Print
+    File Selection
+
+  Settings
+    Move
+      Requires 'Homing' before it functions, but does function
+    Reset EEPROM
+    Steppers
+      Enable and Disable
+
+Some functions that still do not work:
+
+  Temperature
+    Presets - Needs macros in Fluidd configurations
+
+  Settings
+    Move
+      Home button - does nothing
+    Reset BLTouch - ?? 
+    Bed Leveling - does nothing
+    
+
 Welcome to the Klipper project!
 
 [![Klipper](docs/img/klipper-logo-small.png)](https://www.klipper3d.org/)
