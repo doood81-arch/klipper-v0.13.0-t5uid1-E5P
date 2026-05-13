@@ -1,31 +1,53 @@
-This is a WIP
+# Ender 5 Plus — Klipper Stock Screen Compatibility
+> **Status: Work In Progress**
 
-Some functions that do work:
+This document tracks the current state of stock screen (DGUS/T5UID1) functionality running alongside Klipper on the Ender 5 Plus. Configuration changes and updates are versioned in this repository.
 
-  Temperature
-    Manual - Bed and Extruder
+---
 
-  Print
-    File Selection
+## ✅ Working Functions
 
-  Settings
-    Move
-      Requires 'Homing' before it functions, but does function
-    Reset EEPROM
-    Steppers
-      Enable and Disable
+### Temperature
+- **Manual control** — Bed and Extruder temperatures can be set and adjusted manually via the screen
 
-Some functions that still do not work:
+### Print
+- **File Selection** — Browsing and selecting files for print functions correctly
 
-  Temperature
-    Presets - Needs macros in Fluidd configurations
+### Settings
 
-  Settings
-    Move
-      Home button - does nothing
-    Reset BLTouch - ?? 
-    Bed Leveling - does nothing
-    
+#### Move
+- **Home** — Functions correctly
+  > ⚠️ Requires a homing operation to be completed before movement controls become available
+
+#### Other
+- **Reset EEPROM** — Works as expected
+- **Steppers** — Enable and Disable both function correctly
+
+---
+
+## ❌ Not Yet Working
+
+### Temperature
+- **Presets** — Does not apply temperatures
+  > Requires macros to be defined in Fluidd configuration to handle preset targets
+
+### Settings
+- **Reset BLTouch** — Behaviour unknown / not yet investigated
+- **Bed Leveling** — Button does nothing; likely requires a macro mapped to the screen command
+
+---
+
+## Notes
+
+- Screen firmware: `dgus_reloaded` via `[t5uid1]` Klipper module
+- Klipper config is maintained in this repository alongside this status document
+- Investigations into non-working features are ongoing
+
+---
+
+*Last updated: WIP*
+
+---------------------
 
 Welcome to the Klipper project!
 
