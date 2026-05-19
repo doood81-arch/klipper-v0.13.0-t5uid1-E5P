@@ -43,6 +43,26 @@ This document tracks the current state of stock screen (DGUS/T5UID1) functionali
 - Klipper config is maintained in this repository alongside this status document
 - Investigations into non-working features are ongoing
 
+### History
+```
+apt update && apt upgrade
+apt -y install make cmake gcc git build-essential vim
+reboot
+git clone https://github.com/dw-0/kiauh.git
+git clone https://github.com/doood81-arch/klipper-v0.13.0-t5uid1-E5P.git
+cd kiauh ; ./kiauh.sh
+reboot
+ls -l /dev/serial/by-id/
+rsync -avp --exclude=test/ ../dev/klipper-v0.13.0-t5uid1-E5P/klippy/extras/t5uid1 klippy/extras/
+rsync -avp --exclude=test/ ../dev/klipper-v0.13.0-t5uid1-E5P/src/generic/t5uid1 src/generic/
+rsync -avp ../../../dev/klipper-v0.13.0-t5uid1-E5P/src/avr/t5uid1 .
+make menuconfig
+make
+sudo service klipper stop
+make flash FLASH_DEVICE=/dev/serial/by-id/usb-1a86_USB2.0-Serial-if00-port0
+sudo service klipper start
+```
+
 ---
 
 *Last updated: WIP*
