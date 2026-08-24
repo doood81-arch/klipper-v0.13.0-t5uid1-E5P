@@ -11,8 +11,8 @@ import mcu
 # SOS filters (Second Order Sectional)
 ######################################################################
 
-MAX_INT32 = (2 ** 31)
-MIN_INT32 = -(2 ** 31) - 1
+MAX_INT32 = (2 ** 31) - 1
+MIN_INT32 = -(2 ** 31)
 def assert_is_int32(value, frac_bits):
     if value > MAX_INT32 or value < MIN_INT32:
         raise OverflowError("Fixed point Q%d.%d overflow"
@@ -34,7 +34,7 @@ def calc_frac_bits(values):
     if frac_bits <= 0:
         return 0
     try:
-        validate = [to_fixed_32(v) for v in values]
+        validate = [to_fixed_32(v, frac_bits) for v in values]
     except OverflowError as e:
         # Handle rare case where rounding causes an overflow
         return frac_bits - 1
@@ -42,15 +42,15 @@ def calc_frac_bits(values):
 
 # Pre-generated SOS filters (avoid Scipy package for common installs)
 GeneratedSOS = {
-    ('lowpass', 10.0, 4): [
-        [0.004824343357716228, 0.009648686715432456, 0.004824343357716228,
-         1.0, -1.0485995763626117, 0.2961403575616696],
-        [1.0, 2.0, 1.0, 1.0, -1.3209134308194264, 0.6327387928852766],
+    ('lowpass', 400.0/25.0, 4): [
+        [0.0009334986129548442, 0.0018669972259096883, 0.0009334986129548442,
+         1.0, -1.3651172372392975, 0.4775922500725171],
+        [1.0, 2.0, 1.0, 1.0, -1.6117270964574348, 0.7445208382054344],
     ],
 }
 
 # Helper tool to pre-generate SOS filters.  Run with something like:
-#  python -c 'import trigger_analog as m; m.pre_gen_filt("lowpass", 250, 25, 4)'
+#  python -c 'import trigger_analog as m; m.pre_gen_filt("lowpass", 400, 25, 4)'
 def pre_gen_filt(btype, sps, freq, order):
     global GeneratedSOS
     GeneratedSOS = {}
@@ -59,7 +59,8 @@ def pre_gen_filt(btype, sps, freq, order):
     fs = df._butter(freq, btype, order)
     # Write filter info to stdout
     msgs = []
-    msgs.append("    ('%s', %s, %d): [" % (btype, repr(float(sps)/freq), order))
+    msgs.append("    ('%s', %s/%s, %d): ["
+                % (btype, repr(float(sps)), repr(float(freq)), order))
     for data in fs:
         coeffs = ", ".join([repr(float(c)) for c in data])
         msgs.append("        [%s]," % coeffs,)
