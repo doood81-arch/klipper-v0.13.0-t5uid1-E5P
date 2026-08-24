@@ -859,12 +859,9 @@ class T5UID1:
         print_time, est_print_time, lookahead_empty = self.toolhead.check_busy(
             eventtime)
         idle_time = est_print_time - print_time
-        if (not lookahead_empty
+        return (not lookahead_empty
                 or idle_time < 1.0
-                or self.gcode.get_mutex().test()):
-            return True
-        return (self.probe is not None
-                and self.probe.homing_helper.multi_probe_pending)
+                or self.gcode.get_mutex().test())
 
     def cmd_DGUS_ABORT_PAGE_SWITCH(self, gcmd):
         pass
